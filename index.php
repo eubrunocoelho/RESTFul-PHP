@@ -5,7 +5,6 @@ ini_set('display_startup_erros', 1);
 error_reporting(E_ALL);
 
 require_once 'autoload.php';
-include 'debug.php';
 
 use lib\Application;
 use Util\Json;
