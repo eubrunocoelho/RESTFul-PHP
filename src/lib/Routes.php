@@ -14,7 +14,7 @@ class Routes
 
     private function getURLs()
     {
-        $URI = $_SERVER['PATH_INFO'] ?? null;
+        $URI = $_SERVER['PATH_INFO'] ?? 'Index';
 
         if ($URI != null)
             return explode('/', trim($URI, '/'));

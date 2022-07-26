@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Exception;
 use Model\BooksModel;
 use Util\Json;
 
@@ -25,7 +26,7 @@ class PutController
         if (in_array($this->request['router'], self::TYPE_PUT, true))
             return $this->validate();
         else
-            return ['Resposta' => 'Rota não permitida'];
+            throw new Exception('Rota não permitida');
     }
 
     private function validate()
@@ -36,7 +37,7 @@ class PutController
             $this->requestData = Json::jsonBodyRequisition();
             return $this->$resource();
         } else
-            return ['Resposta' => 'Rota não permitida'];
+            throw new Exception('Rota não permitida');
     }
 
     private function update()
@@ -65,9 +66,9 @@ class PutController
 
             $this->BooksModel->getMySQL()->getDB()->rollBack();
 
-            return ['Resposta' => 'Nenhum registro afetado'];
+            throw new Exception('Nenhum registro afetado');
         }
-        
-        return ['Resposta' => 'Houve algum erro na requisição'];
+
+        throw new Exception('Houve algum erro na requisição');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Exception;
 use Model\BooksModel;
 
 class DeleteController
@@ -24,7 +25,7 @@ class DeleteController
         if (in_array($this->request['router'], self::TYPE_DELETE, true))
             return $this->validate();
         else
-            return ['Resposta' => 'Rota não permitida'];
+            throw new Exception('Rota não permitida');
     }
 
     private function validate()
@@ -34,7 +35,7 @@ class DeleteController
         if (in_array($resource, self::RESOURCES, true) && ($this->request['ID'] != null && $this->request['ID'] > 0))
             return $this->$resource();
         else
-            return ['Resposta' => 'Rota não permitida'];
+            throw new Exception('Rota não permitida');
     }
 
     private function deleting()
@@ -47,6 +48,6 @@ class DeleteController
 
         $this->BooksModel->getMySQL()->getDB()->rollBack();
 
-        return ['Resposta' => 'Houve algum erro na requisição'];
+        throw new Exception('Houve algum erro na requisição');
     }
 }

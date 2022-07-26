@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Exception;
 use Model\BooksModel;
 use Util\Json;
 
@@ -26,7 +27,7 @@ class PostController
         if (in_array($this->request['router'], self::TYPE_POST, true))
             return $this->validate();
         else
-            return ['Resposta' => 'Rota não permitida'];
+            throw new Exception('Rota não permitida');
     }
 
     private function validate()
@@ -37,7 +38,7 @@ class PostController
             $this->requestData = Json::jsonBodyRequisition();
             return $this->$resource();
         } else
-            return ['Resposta' => 'Rota não permitida'];
+            throw new Exception('Rota não permitida');
     }
 
     private function register()
@@ -66,9 +67,9 @@ class PostController
 
             $this->BooksModel->getMySQL()->getDB()->rollBack();
 
-            return ['Respota' => 'Houve algum erro na requisição'];
+            throw new Exception('Houve algum erro na requisição');
         }
         
-        return ['Respota' => 'Houve algum erro na requisição'];
+        throw new Exception('Houve algum erro na requisição');
     }
 }

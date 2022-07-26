@@ -2,6 +2,7 @@
 
 namespace lib;
 
+use Exception;
 use lib\Routes;
 
 class Request
@@ -20,12 +21,12 @@ class Request
         $this->response = $this->processRequest();
     }
 
-    public function processRequest()
+    private function processRequest()
     {
         if (in_array($this->request['method'], self::TYPE_REQUEST, true))
             return $this->directRequest();
-        
-        return ['Resposta' => 'Houve algum erro na requisição'];
+            
+        throw new Exception('Houve algum erro na requisição');
     }
 
     private function directRequest()
@@ -40,7 +41,7 @@ class Request
 
                 return $this->Controller->$method($this->request);
         }
-
-        return ['Resposta' => 'Houve algum erro na requisição'];
+        
+        throw new Exception('Houve algum erro na requisição');
     }
 }

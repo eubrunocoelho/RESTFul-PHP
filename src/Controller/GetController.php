@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Exception;
 use Model\BooksModel;
 
 class GetController
@@ -24,7 +25,7 @@ class GetController
         if (in_array($this->request['router'], self::TYPE_GET, true))
             return $this->validate();
         else
-            return ['Resposta' => 'Rota não permitida'];
+            throw new Exception('Rota não permitida');
     }
 
     private function validate()
@@ -34,7 +35,7 @@ class GetController
         if (in_array($resource, self::RESOURCES, true))
             return ($this->request['ID'] != null && $this->request['ID'] > 0) ? $this->getOneByKey() : $this->$resource();
         else
-            return ['Resposta' => 'Rota não permitida'];
+            throw new Exception('Rota não permitida');
     }
 
     private function list()
@@ -44,7 +45,7 @@ class GetController
         if (is_array($registers) && count($registers) > 0)
             return ['Resposta' => $registers];
         else
-            return ['Reposta' => 'Nenhum registro encontrado'];
+            throw new Exception('Nenhum registro encontrado');
     }
 
     private function getOneByKey()
@@ -54,6 +55,6 @@ class GetController
         if (!empty($result))
             return ['Resposta' => $result];
         else
-            return ['Reposta' => 'Nenhum registro correspondente a este ID'];
+            throw new Exception('Nenhum registro correspondente a este ID');
     }
 }
